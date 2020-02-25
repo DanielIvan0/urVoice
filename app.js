@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
 const logger = require('morgan')
 const path = require('path')
 const session = require('express-session')
-//const passport = require('')
+const passport = require('./config/passport')
 
 // MongoDB Setup
 mongoose
@@ -44,10 +44,10 @@ app.use(session(
 ))
 
 // Passport Setup
-//app.use(passport.initialize())
+app.use(passport.initialize())
 
 // Passport Session Setup
-//app.use(passport.session())
+app.use(passport.session())
 
 // Espress View Engine Setup
 app.use(require('node-sass-middleware')(
@@ -65,8 +65,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 // default value for title local
 app.locals.title = 'urVoice - by DanielIvan0'
 
+// Routes Setup
 const index = require('./routes/index')
 app.use('/', index)
+
+const authRoutes = require('./routes/authRoutes')
+app.use('/auth', authRoutes)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -85,8 +89,5 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500)
   res.render('error')
 })
-
-//const authRoutes = require('./routes/authRoutes')
-//app.use('/auth', authRoutes)
 
 module.exports = app
