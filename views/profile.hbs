@@ -3,12 +3,17 @@
     <div class="offset-4 col-4">
       <div class="card text-center">
         <div class="card-header">
-          <img src="{{user.thumbnail}}" alt="Profile Picture">
+          <div class="w-100 rounded-circle overflow-hidden" id="profile-thumbnail">
+            <img src="{{user.thumbnail}}" class="w-100" alt="Profile Picture">
+          </div>
         </div>
         <div class="card-body">
           <h5 class="card-title">{{user.displayName}}</h5>
           <p class="card-text">{{user.email}}</p>
-          <a href="/profile/home" class="btn btn-primary">Go Home, brother</a>
+          <a href="/" class="btn btn-primary">Go Home, brother</a>
+          <div>
+            <a href="/"></a>
+          </div>
         </div>
       </div>
     </div>

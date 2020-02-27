@@ -2,9 +2,8 @@ const router = require('express').Router()
 const passport = require('../config/passport')
 const sessionCheck = (req, res, next) => req.user ? res.redirect('/') : next()
 
-// Routes Prefix: /auth
 router.get('/', sessionCheck, (req, res, next) => {
-    res.render('auth')
+    res.render('signup')
 })
 
 router.get('/google', sessionCheck, passport.authenticate('google', {
@@ -13,11 +12,5 @@ router.get('/google', sessionCheck, passport.authenticate('google', {
         'email'
     ]
 }))
-
-router.get('/google/redirect', sessionCheck, passport.authenticate('google', {
-    scope:'email'
-}), (req, res) => {
-    res.redirect('/')
-})
 
 module.exports = router

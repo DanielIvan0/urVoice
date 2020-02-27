@@ -22,7 +22,6 @@ passport.use(new GoogleStrategy(
         profileFields:['id', 'displayName', 'name', 'email']
     },
     async (accessToken, refreshToken, profile, done) => {
-        console.log(`This is the fuckin' user's profile >>> Name: ${profile._json.name}`)
         const currentUser = await User.findOne({googleId:profile.id})
         if(currentUser){
             done(null, currentUser)
@@ -32,6 +31,7 @@ passport.use(new GoogleStrategy(
                     email:profile._json.email,
                     googleId:profile.id,
                     displayName:profile._json.given_name,
+                    thumbnail:profile.photos ? profile.photos[0].value : 'images/profile-picture.jpg'
                 }
             ).save()
             done(null, newUser)
