@@ -7,6 +7,14 @@ router.get('/', sessionCheck, (req, res, next) => {
     res.render('auth')
 })
 
+router.post('/login', sessionCheck, passport.authenticate('local', {
+    failureRedirect:'/signup',
+    successRedirect:'/',
+    failureFlash:true
+}), (req, res) => {
+    res.redirect('/')
+})
+
 router.get('/google', sessionCheck, passport.authenticate('google', {
     scope:[
         'profile',
@@ -15,7 +23,8 @@ router.get('/google', sessionCheck, passport.authenticate('google', {
 }))
 
 router.get('/google/redirect', sessionCheck, passport.authenticate('google', {
-    scope:'email'
+    scope:'email',
+    failureRedirect:'/auth'
 }), (req, res) => {
     res.redirect('/')
 })

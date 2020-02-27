@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <div class="col-4 offset-4">
+      <form method="POST" action="/auth/login">
+        <div class="form-group">
+          <input
+            type="hidden"
+            class="form-control"
+            id="username"
+            aria-describedby="username"
+            value="{{email}}"
+            name="username" />
+        </div>
+        <div class="form-group">
+          <label for="password">Verification code</label>
+          <input
+            type="text"
+            class="form-control"
+            id="password"
+            aria-describedby="password"
+            placeholder="Enter the code"
+            autocomplete="off"
+            name="password" />
+          <small class="form-text text-muted">This is for the security of your account.</small>
+        </div>
+        <button type="submit" name="submitCode" class="btn btn-primary">Submit</button>
+      </form>
+      <hr />
+    </div>
+  </div>
+</div>

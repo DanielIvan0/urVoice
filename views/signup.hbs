@@ -1,54 +1,35 @@
 <div class="container">
   <div class="row">
     <div class="col-4 offset-4">
-      {{#if err}}
+      <!--{{#if err}}
         {{#each err}}
           <div class="alert alert-warning" role="alert">
             {{this.msg}}
           </div>
         {{/each}}
-      {{/if}}
-      <form method="POST" action="/signup">
+      {{/if}}-->
+      <form method="POST" action="/signup/otp">
         <div class="form-group">
           <label for="displayName">Display Name</label>
           <input
             type="text"
             class="form-control"
-            id="name"
+            id="displayName"
             aria-describedby="name"
             placeholder="Example: Daniel Iván"
-            name="name" />
+            name="displayName" />
         </div>
         <div class="form-group">
-          <label class="font-size" for="email">Email address</label c>
+          <label for="email">Email Address</label>
           <input
             type="email"
             class="form-control"
-            id="email" aria-describedby="email"
-            placeholder="Example: example@mail.com"
+            id="email"
+            aria-describedby="email"
+            placeholder="Example: firemachine69@mail.com"
             name="email"
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" />
           <small id="emailLabel" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-          <label for="pwd0">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="pwd0"
-            aria-describedby="password"
-            placeholder="Password"
-            name="pwd0" />
-        </div>
-        <div class="form-group">
-          <label for="pwd1">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="pwd1"
-            aria-describedby="password"
-            placeholder="Confirm Password"
-            name="pwd1" />
         </div>
         <button type="submit" name="signup" class="btn btn-primary">Submit</button>
       </form>

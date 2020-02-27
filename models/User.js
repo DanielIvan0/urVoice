@@ -6,7 +6,7 @@ const userSchema = new Schema(
             unique:true,
             required:true
         },
-        password:String,
+        otp:String,
         googleId:{
             type:String,
             unique:true,
@@ -19,6 +19,10 @@ const userSchema = new Schema(
         thumbnail:{
             type:String,
             default:'images/profile-picture.jpg'
+        },
+        status:{
+            type:Boolean,
+            default:false
         }
     }
 )

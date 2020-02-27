@@ -1,5 +1,6 @@
 require('dotenv').config()
-
+global.isAuth = true
+global.email = ''
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const express = require('express')
