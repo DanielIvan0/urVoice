@@ -23,6 +23,11 @@ const userSchema = new Schema(
         status:{
             type:Boolean,
             default:false
+        },
+        college:String,
+        occupation:{
+            type:String,
+            default:'Student'
         }
     }
 )
