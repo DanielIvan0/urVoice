@@ -24,10 +24,20 @@ const userSchema = new Schema(
             type:Boolean,
             default:false
         },
-        college:String,
-        occupation:{
+        college:{
             type:String,
-            default:'Student'
+            default:'-'
+        },
+        occupation:[
+            {
+                student:Boolean,
+                teacher:Boolean,
+                admin:Boolean
+            }
+        ],
+        degree:{
+            type:String,
+            default:'-'
         }
     }
 )

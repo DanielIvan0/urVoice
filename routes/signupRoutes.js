@@ -13,7 +13,7 @@ router.get('/', sessionCheck, (req, res, next) => {
 
 // Route for the One Time Password
 router.post('/otp', sessionCheck, async (req, res, next) => {
-    const {displayName, email} = req.body
+    const {displayName, email, college, occupation, degree} = req.body
     if(email){
         //Send OTP
         try{
@@ -45,6 +45,15 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
                             email,
                             displayName,
                             otp:encrypted,
+                            college,
+                            degree,
+                            occupation:[
+                                {
+                                    student:occupation == '0' ? true : false,
+                                    teacher:occupation == '1' ? true : false,
+                                    admin:occupation == '2' ? true: false
+                                }
+                            ]
                         }
                     ).save()
                 }

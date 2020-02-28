@@ -8,7 +8,7 @@
           </div>
         {{/each}}
       {{/if}}-->
-      <form method="POST" action="/signup/otp">
+      <form method="POST" action="/profile/edit-profile/redirect">
         <div class="form-group">
           <label for="displayName">Display Name</label>
           <input
@@ -17,7 +17,9 @@
             id="displayName"
             aria-describedby="name"
             placeholder="Example: Daniel Iván"
-            name="displayName" />
+            name="displayName",
+            value="{{user.displayName}}"
+            required />
         </div>
         <div class="form-group">
           <label for="email">Email Address</label>
@@ -28,36 +30,52 @@
             aria-describedby="email"
             placeholder="Example: firemachine69@mail.com"
             name="email"
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" />
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+            value="{{user.email}}"
+            required />
           <small id="emailLabel" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
           <label for="occupation">Occupation</label>
-          <select class="custom-select" name="occupation" id="occupation">
-            <option value="0" selected>Student</option>
+          <select name="occupation" class="custom-select" id="occupation">
+            {{#if user.occupation.0.student}}
+            <option value="0" selected >Student</option>
+            {{else}}
+            <option value="0">Student</option>
+            {{/if}}
+            {{#if user.occupation.0.teacher}}
+            <option value="1" selected>Teacher</option>
+            {{else}}
             <option value="1">Teacher</option>
+            {{/if}}
+            {{#if user.occupation.0.admin}}
+            <option value="2" selected >Administrative</option>
+            {{else}}
             <option value="2">Administrative</option>
+            {{/if}}
           </select>
         </div>
         <div class="form-group">
-          <label for="college">College</label>
+          <label for="displayName">College</label>
           <input
             type="text"
             class="form-control"
             id="college"
             aria-describedby="college"
-            placeholder="Example: UAGro"
-            name="college" />
+            placeholder="Example: Universidad Autónoma de Guerrero"
+            name="college"
+            value="{{user.college}}" />
         </div>
         <div class="form-group">
-          <label for="degree">Degree</label>
+          <label for="displayName">Degree</label>
           <input
             type="text"
             class="form-control"
             id="degree"
             aria-describedby="degree"
             placeholder="Example: Lic. en Matemáticas"
-            name="degree" />
+            name="degree"
+            value="{{user.degree}}" />
         </div>
         <button type="submit" name="signup" class="btn btn-primary">Submit</button>
       </form>

@@ -77,7 +77,14 @@ passport.use(new GoogleStrategy(
                     googleId:profile.id,
                     displayName:profile._json.given_name,
                     thumbnail:profile.photos ? profile.photos[0].value : 'images/profile-picture.jpg',
-                    status:true
+                    status:true,
+                    occupation:[
+                        {
+                            student:true,
+                            teacher:false,
+                            admin:false
+                        }
+                    ]
                 }
             ).save()
             return done(null, newUser)

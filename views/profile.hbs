@@ -10,8 +10,22 @@
         <div class="card-body">
           <h5 class="card-title">{{user.displayName}}</h5>
           <p class="card-text">{{user.email}}</p>
+          <p class="card-text">{{user.degree}}</p>
+          <p class="card-text">
+          {{#if user.occupation.0.student}}
+          Student
+          {{/if}}
+          {{#if user.occupation.0.teacher}}
+          Teacher
+          {{/if}}
+          {{#if user.occupation.0.admin}}
+          Administrative
+          {{/if}}
+          in {{user.college}}
+          </p>
           <a href="/" class="btn btn-primary">Go Home, brother</a>
-          <a href="/profile/delete-account" class="btn btn-primary">Delete Account</a>
+          <a href="/profile/edit-profile"><small class="form-text text-muted">Edit Profile</small></a>
+          <a href="/profile/delete-account"><small class="form-text text-muted">Delete Account</small></a>
         </div>
       </div>
     </div>
