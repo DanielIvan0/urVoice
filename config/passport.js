@@ -31,10 +31,13 @@ passport.use(new LocalStrategy(
                 if(currentUser.otp === encrypted){
                     // The passwords are equal
                     console.log('The passwords are equal')
-                    await User.findOneAndUpdate(currentUser, {
+                    await User.findOneAndUpdate({
+                        email:currentUser.email
+                    }, {
                         otp:0,
                         status:true
                     })
+                    console.log('currentUser: ' + currentUser)
                     return done(null, currentUser)
                 }else{
                     // The password is wrong
@@ -43,7 +46,8 @@ passport.use(new LocalStrategy(
                 }
             }else return done(null, false)
         }catch(e){
-            return done(null, false, {msg:e})
+            console.log(e)
+            return done(null, false)
         }
     }
 ))
@@ -57,11 +61,16 @@ passport.use(new GoogleStrategy(
         profileFields:['id', 'displayName', 'name', 'email']
     },
     async (accessToken, refreshToken, profile, done) => {
-        const currentUser = await User.findOne({googleId:profile.id})
+        const {isAuth} = global
+        const currentUser = await User.findOne({
+            email:profile._json.email
+        })
         console.log(currentUser)
         if(currentUser){
-            done(null, currentUser)
+            console.log('It is auth! It is all OK.')
+            return done(null, currentUser)
         }else{
+            if(isAuth)return done(null, false, {msg:'The user doesn\'t exists.'})
             const newUser = await new User(
                 {
                     email:profile._json.email,
@@ -71,7 +80,7 @@ passport.use(new GoogleStrategy(
                     status:true
                 }
             ).save()
-            done(null, newUser)
+            return done(null, newUser)
         }
     }
 ))

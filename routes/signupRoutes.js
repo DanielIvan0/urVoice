@@ -17,12 +17,13 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
     if(email){
         //Send OTP
         try{
-            const currentUser = await User.findOne({email:email})
+            const currentUser = await User.findOne({email})
             if(currentUser && currentUser.status){
                 res.send('The email is already verified.')
             }else{
                 // Let's verify the account
                 // Generate token
+                console.log(1)
                 const token = crazyString.generate({
                     length:6,
                     capitalization:'uppercase'
@@ -30,12 +31,14 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
                 const cipher = crypto.createCipher(process.env.CRYPT_ALGORITHM, process.env.CRYPT_KEY)
                 let encrypted = cipher.update(token, 'utf8', 'hex')
                 encrypted += cipher.final('hex')
+                console.log(2)
                 var updatedUser = await User.findOneAndUpdate({
-                    email:currentUser.email,
+                    email:email,
                     status:false
                 }, {
                     otp:encrypted
                 })
+                console.log(3)
                 if(!(updatedUser)){
                     updatedUser = await new User(
                         {
@@ -45,7 +48,9 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
                         }
                     ).save()
                 }
+                console.log(4)
                 if(updatedUser){
+                    console.log(console.log(5))
                     const tokenHTML = `
                         <h2>Hi, ${displayName}!</h2>
                         <h3>Thank you very much for joining our network.</h3>
@@ -62,13 +67,13 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
                     })
                     await transporter.sendMail({
                         from:`urVoice team: <${process.env.EMAIL}>`,
-                        to:email,
+                        to:updatedUser.email,
                         subject:'Verification code.',
                         text:'This is the text',
                         html:tokenHTML
                     })
-                    global.email = email
-                    res.render('otp', {email})
+                    console.log(6)
+                    res.render('otp', {email:updatedUser.email})
                 }else res.send('Error')
             }
         }catch(e){
@@ -78,7 +83,10 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
 })
 
 // Google Authentication
-router.get('/google', sessionCheck, passport.authenticate('google', {
+router.get('/google', sessionCheck, (req, res, next) => {
+    global.isAuth = false
+    next()
+}, passport.authenticate('google', {
     scope:[
         'profile',
         'email'
