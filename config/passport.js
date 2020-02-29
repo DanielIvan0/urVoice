@@ -47,7 +47,7 @@ passport.use(new LocalStrategy(
 // Google Login Strategy
 passport.use(new GoogleStrategy(
     {
-        callbackURL:'https://urvoice-aca.herokuapp.com/auth/google/redirect',
+        callbackURL:'http://localhost:3000/auth/google/redirect',
         clientID:process.env.G_CLIENT_ID,
         clientSecret:process.env.G_CLIENT_SECRET,
         profileFields:['id', 'displayName', 'name', 'email']
