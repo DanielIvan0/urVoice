@@ -89,7 +89,7 @@ router.get('/edit-profile/otp', sessionCheck, async (req, res) => {
         decrypted += decipher.final('utf8')
         sendMail(email2, decrypted, displayName)
         res.render('otp', {
-            msg:`If you want to change your email, then verify your account with the authentication code we send to ${email2}.`,
+            msg:`If you want to change your email, then verify your account with the authentication code we send to ${email2}`,
             msgType:'warning',
             editProfile:true,
             email:''
