@@ -15,7 +15,7 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
     const {email} = req.body
     if(email){
         try{
-            const currentUser = await User.findOne({email:email})
+            const currentUser = await User.findOne({email})
             if(currentUser && currentUser.status){
                 // It's all OK, let's verify the account
                 // Generate token
@@ -40,8 +40,7 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
                         <p>Your verification code is: ${token}</p>
                     `
                     const transporter = nodemailer.createTransport({
-                        host:process.env.HOST,
-                        port:parseInt(process.env.EMAIL_PORT),
+                        service:'Gmail',
                         auth: {
                             user:process.env.EMAIL,
                             pass:process.env.EMAIL_PWD
@@ -54,7 +53,11 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
                         text:'This is the text',
                         html:tokenHTML
                     })
-                    res.render('otp', {email})
+                    res.render('otp', {
+                        email,
+                        msg:`We send your authentication code to ${email}`,
+                        msgType:'info'
+                    })
                 }else res.send('Error in the Data Base')
             }else{
                 res.send('You are not registered or your account is disabled.')
@@ -65,7 +68,7 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
     }else res.send('There is something missing!')
 })
 
-router.post('/login', sessionCheck, passport.authenticate('local', {
+router.post('/login', passport.authenticate('local', {
     failureRedirect:'/auth',
     successRedirect:'/',
     failureFlash:true

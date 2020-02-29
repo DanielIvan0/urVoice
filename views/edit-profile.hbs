@@ -38,17 +38,17 @@
         <div class="form-group">
           <label for="occupation">Occupation</label>
           <select name="occupation" class="custom-select" id="occupation">
-            {{#if user.occupation.0.student}}
+            {{#if user.occupation.student}}
             <option value="0" selected >Student</option>
             {{else}}
             <option value="0">Student</option>
             {{/if}}
-            {{#if user.occupation.0.teacher}}
+            {{#if user.occupation.teacher}}
             <option value="1" selected>Teacher</option>
             {{else}}
             <option value="1">Teacher</option>
             {{/if}}
-            {{#if user.occupation.0.admin}}
+            {{#if user.occupation.admin}}
             <option value="2" selected >Administrative</option>
             {{else}}
             <option value="2">Administrative</option>

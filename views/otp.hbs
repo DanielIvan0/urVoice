@@ -1,7 +1,16 @@
 <div class="container">
   <div class="row">
     <div class="col-4 offset-4">
+      {{#if msg}}
+      <div class="alert alert-{{msgType}}" role="alert">
+        {{msg}}
+      </div>
+      {{/if}}
+      {{#if editProfile}}
+      <form method="POST" action="/profile/edit-profile/otp/redirect">
+      {{else}}
       <form method="POST" action="/auth/login">
+      {{/if}}
         <div class="form-group">
           <input
             type="hidden"
@@ -26,6 +35,11 @@
         <button type="submit" name="submitCode" class="btn btn-primary">Submit</button>
       </form>
       <hr />
+      {{#if editProfile}}
+      <a href="/profile/edit-profile/otp"><small class="form-text text-muted">Send code again.</small></a>
+      {{else}}
+      <!--<a href="/profile/edit-profile/otp"><small class="form-text text-muted">Send code again.</small></a>-->
+      {{/if}}
     </div>
   </div>
 </div>

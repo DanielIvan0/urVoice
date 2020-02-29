@@ -12,7 +12,7 @@ router.get('/', sessionCheck, (req, res, next) => {
 })
 
 // Route for the One Time Password
-router.post('/otp', sessionCheck, async (req, res, next) => {
+router.post('/otp', sessionCheck, async (req, res) => {
     const {displayName, email, college, occupation, degree} = req.body
     if(email){
         //Send OTP
@@ -23,7 +23,6 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
             }else{
                 // Let's verify the account
                 // Generate token
-                console.log(1)
                 const token = crazyString.generate({
                     length:6,
                     capitalization:'uppercase'
@@ -31,14 +30,12 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
                 const cipher = crypto.createCipher(process.env.CRYPT_ALGORITHM, process.env.CRYPT_KEY)
                 let encrypted = cipher.update(token, 'utf8', 'hex')
                 encrypted += cipher.final('hex')
-                console.log(2)
                 var updatedUser = await User.findOneAndUpdate({
                     email:email,
                     status:false
                 }, {
                     otp:encrypted
                 })
-                console.log(3)
                 if(!(updatedUser)){
                     updatedUser = await new User(
                         {
@@ -47,19 +44,15 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
                             otp:encrypted,
                             college,
                             degree,
-                            occupation:[
-                                {
-                                    student:occupation == '0' ? true : false,
-                                    teacher:occupation == '1' ? true : false,
-                                    admin:occupation == '2' ? true: false
-                                }
-                            ]
+                            occupation:{
+                                student:occupation == '0' ? true : false,
+                                teacher:occupation == '1' ? true : false,
+                                admin:occupation == '2' ? true: false
+                            }
                         }
                     ).save()
                 }
-                console.log(4)
                 if(updatedUser){
-                    console.log(console.log(5))
                     const tokenHTML = `
                         <h2>Hi, ${displayName}!</h2>
                         <h3>Thank you very much for joining our network.</h3>
@@ -67,8 +60,7 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
                         <p>Your verification code is: ${token}</p>
                     `
                     const transporter = nodemailer.createTransport({
-                        host:process.env.HOST,
-                        port:parseInt(process.env.EMAIL_PORT),
+                        service:'Gmail',
                         auth: {
                             user:process.env.EMAIL,
                             pass:process.env.EMAIL_PWD
@@ -81,8 +73,11 @@ router.post('/otp', sessionCheck, async (req, res, next) => {
                         text:'This is the text',
                         html:tokenHTML
                     })
-                    console.log(6)
-                    res.render('otp', {email:updatedUser.email})
+                    res.render('otp', {
+                        email:updatedUser.email,
+                        msg:`We send your authentication code to ${updatedUser.email}`,
+                        msgType:'info'
+                    })
                 }else res.send('Error')
             }
         }catch(e){

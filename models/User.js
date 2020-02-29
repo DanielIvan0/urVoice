@@ -6,12 +6,11 @@ const userSchema = new Schema(
             unique:true,
             required:true
         },
-        otp:String,
-        googleId:{
+        email2:{
             type:String,
-            unique:true,
-            sparse:true
+            default:""
         },
+        otp:String,
         displayName:{
             type:String,
             required:true
@@ -28,13 +27,11 @@ const userSchema = new Schema(
             type:String,
             default:'-'
         },
-        occupation:[
-            {
-                student:Boolean,
-                teacher:Boolean,
-                admin:Boolean
-            }
-        ],
+        occupation:{
+            student:Boolean,
+            teacher:Boolean,
+            admin:Boolean
+        },
         degree:{
             type:String,
             default:'-'

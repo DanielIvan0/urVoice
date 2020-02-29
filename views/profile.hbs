@@ -12,22 +12,25 @@
           <p class="card-text">{{user.email}}</p>
           <p class="card-text">{{user.degree}}</p>
           <p class="card-text">
-          {{#if user.occupation.0.student}}
+          {{#if user.occupation.student}}
           Student
           {{/if}}
-          {{#if user.occupation.0.teacher}}
+          {{#if user.occupation.teacher}}
           Teacher
           {{/if}}
-          {{#if user.occupation.0.admin}}
+          {{#if user.occupation.admin}}
           Administrative
           {{/if}}
           in {{user.college}}
           </p>
           <a href="/" class="btn btn-primary">Go Home, brother</a>
-          <a href="/profile/edit-profile"><small class="form-text text-muted">Edit Profile</small></a>
-          <a href="/profile/delete-account"><small class="form-text text-muted">Delete Account</small></a>
+          <hr />
+          <a href="/profile/edit-profile"><small class="form-text text-muted"><img class="profile-icon" src="images/pencil.svg" /> Edit Profile</small></a>
+          <a href="/profile/delete-account"><small class="form-text text-muted"><img class="profile-icon" src="images/bin.svg" /> Delete Account</small></a>
         </div>
       </div>
     </div>
   </div>
 </div>
+<h1>Stories...</h1>
+Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>

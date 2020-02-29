@@ -17,36 +17,28 @@ passport.deserializeUser(async (id, done) => {
 
 passport.use(new LocalStrategy(
     async (username, password, done) => {
-        console.log('entra a passport-local')
         try{
-            console.log('passport -- try')
             const currentUser = await User.findOne({email:username})
-            console.log('user found: ' + currentUser)
             if(currentUser){
                 // Check password
-                console.log('User exixts!')
                 const cipher = crypto.createCipher(process.env.CRYPT_ALGORITHM, process.env.CRYPT_KEY)
                 let encrypted = cipher.update(password, 'utf8', 'hex')
                 encrypted += cipher.final('hex')
                 if(currentUser.otp === encrypted){
                     // The passwords are equal
-                    console.log('The passwords are equal')
                     await User.findOneAndUpdate({
                         email:currentUser.email
                     }, {
                         otp:0,
                         status:true
                     })
-                    console.log('currentUser: ' + currentUser)
                     return done(null, currentUser)
                 }else{
                     // The password is wrong
-                    console.log('The password is wrong')
                     return done(null, false)
                 }
             }else return done(null, false)
         }catch(e){
-            console.log(e)
             return done(null, false)
         }
     }
@@ -65,9 +57,7 @@ passport.use(new GoogleStrategy(
         const currentUser = await User.findOne({
             email:profile._json.email
         })
-        console.log(currentUser)
         if(currentUser){
-            console.log('It is auth! It is all OK.')
             return done(null, currentUser)
         }else{
             if(isAuth)return done(null, false, {msg:'The user doesn\'t exists.'})
@@ -78,13 +68,11 @@ passport.use(new GoogleStrategy(
                     displayName:profile._json.given_name,
                     thumbnail:profile.photos ? profile.photos[0].value : 'images/profile-picture.jpg',
                     status:true,
-                    occupation:[
-                        {
-                            student:true,
-                            teacher:false,
-                            admin:false
-                        }
-                    ]
+                    occupation:{
+                        student:true,
+                        teacher:false,
+                        admin:false
+                    }
                 }
             ).save()
             return done(null, newUser)
